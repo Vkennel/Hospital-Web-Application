@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <!-- <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p> -->
+
+    <form class="sign-up-card" id="login_form">
+      <h3>Log In</h3>
+      <div class="input-div">
+          <label for="Email">Email</label>
+          <input type="email" name="email" placeholder="Email" required>
+      </div>
+      <div class="input-div">
+          <label for="Password">Password</label>
+          <input type="password" name="password" placeholder="Password" required>
+      </div>
+      <button type="submit" class="btn">Log In</button>
+      <p>Don't have account? <a href="/signup">Sign Up</a></p>
+	</form>
+  <div>
+</div>
+
+  </body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+<script>
+	let submitForm = document.getElementById("login_form")
+	submitForm.addEventListener("submit", (e)=>{
+		e.preventDefault()
+		const formData ={
+			email:submitForm.email.value,
+			password:submitForm.password.value
+		}
+		console.log(formData);
+		axios({
+		method:'post',
+		url:'/doctors/login',
+		data:JSON.stringify(formData),
+		headers:{'Content-Type':'application/json'}
+	}).then(response=>{
+    if(response.data.msg =='Login Successfully'){
+      window.location.href="/home"
+    }
+		console.log(response.data);
+	}).catch(err=>{
+		console.log(err);
+	})
+	})
+
+</script>

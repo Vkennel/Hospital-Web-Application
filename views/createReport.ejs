@@ -1,0 +1,90 @@
+<%- include('partials/header') %>
+<div class="container" style="min-height:80vh">
+
+<form id="create_report">
+    <div class="form-group mb-4">
+      <label>Patient Name</label>
+      <input type="text" class="form-control" placeholder="Patient Name" name="patientName" value="" required>
+    </div>
+
+    <div class="form-group mb-4">
+        <label>Age</label>
+        <input type="number" class="form-control" placeholder="Patient Age" name="age" value="" required>
+      </div>
+   
+      <div class="form-group mb-4">
+        <label>Hospital Name</label>
+        <input type="text" class="form-control" placeholder="Patient Hospital Name" name="hospitalName" value="" required>
+      </div>
+
+      <div class="form-group mb-4">
+        <label>Weight</label>
+        <input type="number" class="form-control" placeholder="Patient Weight" name="weight" value="" required>
+      </div>
+
+      <div class="form-group mb-4">
+        <label>Height</label>
+        <input type="text" class="form-control" placeholder="Patient Height" name="height" value="" required>
+      </div>
+
+      <div class="form-group mb-4">
+        <label>Blood Group</label>
+        <input type="text" class="form-control" placeholder="Patient Blood Group" name="bloodGroup" value="" required>
+      </div> 
+
+      <div class="form-group mb-4">
+        <label>Genotype</label>
+        <input type="text" class="form-control" placeholder="Patient Genotype" name="genotype" value="" required>
+      </div>
+
+      <div class="form-group mb-4">
+        <label>Blood Pressure</label>
+        <input type="number" class="form-control" placeholder="Patient Blood Pressure" name="bloodPressure" value="" required>
+      </div>
+
+      <div class="form-group mb-4">
+        <label>HIV Status</label>
+        <input type="text" class="form-control" placeholder="Patient HIV Status" name="HIV_status" value="" required>
+      </div>
+      <div class="form-group mb-4">
+        <label>Hepatitis</label>
+        <input type="text" class="form-control" placeholder="Patient Hepatitis" name="hepatitis" value="" required>
+      </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<%- include('partials/footer') %>
+
+<script>
+	let submitForm = document.getElementById("create_report")
+	submitForm.addEventListener("submit", (e)=>{
+		e.preventDefault()
+		const formData ={
+            patientName: submitForm.patientName.value,
+            age: submitForm.age.value,
+            hospitalName:submitForm.hospitalName.value,
+            weight:submitForm.weight.value,
+            height:submitForm.height.value,
+            bloodGroup:submitForm.bloodGroup.value,
+            genotype:submitForm.genotype.value,
+            bloodPressure:submitForm.bloodPressure.value,
+            HIV_status:submitForm.HIV_status.value,
+            hepatitis:submitForm.hepatitis.value
+		}
+		axios({
+		method:'post',
+		url:'/reports/create',
+		data:JSON.stringify(formData),
+		headers:{'Content-Type':'application/json'}
+	}).then(response=>{ 
+    if(response.data.msg == 'You have successfully created a patient report'){
+        alert(response.data.msg)
+      window.location.href="/home"
+    }
+		console.log(response.data);
+	}).catch(err=>{
+		console.log(err);
+	})
+	})
+
+</script>

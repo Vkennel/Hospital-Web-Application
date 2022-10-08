@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign Up</title>
+  </head>
+  <link rel="stylesheet" href="/stylesheets/signUp.css" />
+
+  <body>
+    <div id="form-content">
+      <div>
+        <h1>Sign Up</h1>
+        <h3>It's free and only takes a minute...</h3>
+      </div>
+      <form id="signup_form">
+        <div class="form-inputs">
+          <label for="firstName">First Name</label>
+          <input type="text" name="DoctorsName" id="Name" required/>
+        </div>
+        <div class="form-inputs">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="Email" required />
+        </div>
+        <div class="form-inputs">
+          <label for="email">Specialization</label>
+          <select class="form-select" name="specialization" aria-label="Default select example" required>
+            <option value="Specialization" selected>Open this select menu</option>
+
+            <option value="Allergy and immunology">
+              Allergy and immunology
+            </option>
+            <option value="Anesthesiology">Anesthesiology</option>
+            <option value="Dermatology">Dermatology</option>
+            <option value="Diagnostic radiology">Diagnostic radiology</option>
+            <option value="Emergency medicine">Emergency medicine</option>
+            <option value="Family medicine">Family medicine</option>
+            <option value="Internal medicine">Internal medicine</option>
+            <option value="Medical genetics">Medical genetics</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Nuclear medicine">Nuclear medicine</option>
+            <option value="Obstetrics and gynecology">
+              Obstetrics and gynecology
+            </option>
+            <option value="Ophthalmology">Ophthalmology</option>
+            <option value="Pathology">Pathology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="Physical medicine and rehabilitation">
+              Physical medicine and rehabilitation
+            </option>
+            <option value="Preventive medicine">Preventive medicine</option>
+            <option value="Psychiatry">Psychiatry</option>
+            <option value="Radiation oncology">Radiation oncology</option>
+            <option value="Surgery">Surgery</option>
+            <option value="Urology">Urology</option>
+          </select>
+        </div>
+
+        <div class="form-inputs">
+          <label for="gender">Gender</label>
+         <select name="gender" class="form-select" required>
+          <option value="gender">Select your gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+
+         </select>
+        </div>
+
+
+        <div class="form-inputs">
+          <label for="phoneNumber">Telephone Number</label>
+          <input type="number" name="phoneNumber" id="phoneNumber"  required />
+        </div>
+
+
+        <div class="form-inputs">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password"  required/>
+        </div>
+
+        <div class="form-inputs">
+          <label for="current password">Confirm Password</label>
+          <input
+            type="password"
+            name="confirm_password"
+            id="confirm_password"
+            required
+          />
+        </div>
+        <div class="form-inputs">
+          <button type="submit" class="btn">Submit</button>
+        </div>
+      </form>
+      <div>
+        <h5>
+          By clicking the Sign Up button, you agree to our
+          <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy.</a>
+        </h5>
+      </div>
+    </div>
+    <footer>
+      <h4>Already have an account ? <a href="/login">Login Here</a></h4>
+    </footer>
+  </body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+<script>
+  let submitForm = document.getElementById("signup_form");
+  
+  submitForm.addEventListener("submit", (e) => {
+    console.log(e);
+    e.preventDefault();
+    const formData = {
+   DoctorsName:submitForm.DoctorsName.value,
+   email:submitForm.email.value,
+   specialization:submitForm.specialization.value,
+   gender:submitForm.gender.value,
+   phoneNumber:submitForm.phoneNumber.value,
+   password:submitForm.password.value,
+   confirm_password:submitForm.confirm_password.value
+    };
+
+    axios({
+      method: "post",
+      url: "/doctors/register",
+      data: JSON.stringify(formData),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+   
+      if(response.data.msg){
+        alert(response.data.msg)
+        window.location.href="/login"
+      }
+      })
+      .catch((err) => {
+        console.log(err);
+        if(err.response.data.Error){
+        alert(err.response.data.Error)
+        }
+
+        if(err.response.data.msg){
+          alert(err.response.data.msg)
+        };
+      });
+  });
+</script>

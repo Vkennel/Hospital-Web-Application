@@ -1,0 +1,95 @@
+<%- include('partials/header') %>
+<div class="container" style="min-height:80vh">
+
+<form id="update_doctor">
+    <div class="form-group mb-4">
+      <label>Doctor Name</label>
+      <input type="text" class="form-control" placeholder="Doctor Name" name="DoctorsName" value="<%= loggedIn.DoctorsName %>">
+    </div>
+
+    <div class="form-group mb-4">
+        <label>Doctor Email</label>
+        <input type="email" class="form-control" placeholder="Doctor Name" name="email" value="<%= loggedIn.email %>">
+      </div>
+
+      <div class="form-group mb-4">
+        <label>Doctor Specializaton</label>
+        <select class="form-control" name="specialization" value="<%= loggedIn.specialization %>">
+            <option value="Specialization">Open this select menu</option>
+
+            <option value="Allergy and immunology">
+              Allergy and immunology
+            </option>
+            <option value="Anesthesiology">Anesthesiology</option>
+            <option value="Dermatology">Dermatology</option>
+            <option value="Diagnostic radiology">Diagnostic radiology</option>
+            <option value="Emergency medicine">Emergency medicine</option>
+            <option value="Family medicine">Family medicine</option>
+            <option value="Internal medicine">Internal medicine</option>
+            <option value="Medical genetics">Medical genetics</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Nuclear medicine">Nuclear medicine</option>
+            <option value="Obstetrics and gynecology">
+              Obstetrics and gynecology
+            </option>
+            <option value="Ophthalmology">Ophthalmology</option>
+            <option value="Pathology">Pathology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="Physical medicine and rehabilitation">
+              Physical medicine and rehabilitation
+            </option>
+            <option value="Preventive medicine">Preventive medicine</option>
+            <option value="Psychiatry">Psychiatry</option>
+            <option value="Radiation oncology">Radiation oncology</option>
+            <option value="Surgery">Surgery</option>
+            <option value="Urology">Urology</option>
+        </select>
+      </div>
+      <div class="form-group mb-4">
+        <label>Gender</label>
+        <select name="gender" value="<%= loggedIn.gender %>" class="form-select" required>
+            <option value="gender">Select your gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+           </select>
+      </div>
+
+      <div class="form-group mb-4">
+        <label>Phone number</label>
+        <input type="text" class="form-control" placeholder="Doctor Phone Number" name="phoneNumber" value="<%= loggedIn.phoneNumber %>">
+      </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<%- include('partials/footer') %>
+
+<script>
+	let submitForm = document.getElementById("update_doctor")
+	submitForm.addEventListener("submit", (e)=>{
+		e.preventDefault()
+		const formData ={
+            DoctorsName:submitForm.DoctorsName.value,
+   email:submitForm.email.value,
+   specialization:submitForm.specialization.value,
+   gender:submitForm.gender.value,
+   phoneNumber:submitForm.phoneNumber.value, 
+		}
+		axios({
+		method:'patch',
+		url:'/reports/update/<%= loggedIn.id %>',
+		data:JSON.stringify(formData),
+		headers:{'Content-Type':'application/json'}
+	}).then(response=>{
+        console.log(response);
+    if(response.data.msg == 'Data updated successfully'){
+        alert(response.data.msg)
+      window.location.href="/home"
+    }
+		console.log(response.data);
+	}).catch(err=>{
+		console.log(err);
+	})
+	})
+
+</script>
